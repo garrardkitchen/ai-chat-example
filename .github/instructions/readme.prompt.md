@@ -22,7 +22,7 @@
 - if the project requires certificates or secrets, provide instructions for setting them up securely, such as using user secrets or environment variables.
 - include a section for troubleshooting common issues, providing solutions or workarounds for known problems.
 - if details or content is sparse, consider providing more information.
-
+- include a tree structure to visualize the solution structure, especially for larger projects with multiple directories and files. 
 
 # general guidelines:
 

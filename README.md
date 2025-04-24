@@ -1,108 +1,149 @@
 # AI Chat with Custom Data
 
-This project is an AI chat application that demonstrates how to chat with custom data using an AI language model. Please note that this template is currently in an early preview stage. If you have feedback, please take a [brief survey](https://aka.ms/dotnet-chat-templatePreview2-survey).
+An AI chat application that demonstrates how to chat with custom data using an AI language model. This template is in early preview—[share your feedback](https://aka.ms/dotnet-chat-templatePreview2-survey).
 
->[!NOTE]
-> Before running this project you need to configure the API keys or endpoints for the providers you have chosen. See below for details specific to your choices.
+---
 
-# Configure the AI Model Provider
+# Table of Contents
+- [Project Overview](#project-overview)
+- [Solution Structure](#solution-structure)
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Configuration & Secrets](#configuration--secrets)
+- [Usage](#usage)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Troubleshooting](#troubleshooting)
+- [FAQ](#faq)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact](#contact)
+- [References](#references)
 
-## Using GitHub Models
-To use models hosted by GitHub Models, you will need to create a GitHub personal access token. The token should not have any scopes or permissions. See [Managing your personal access tokens](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+---
 
-Configure your token for this project using .NET User Secrets:
+# Project Overview
+AI Chat with Custom Data enables users to interact with AI models using their own data sources. It supports multiple providers, including GitHub Models and OpenAI endpoints, and demonstrates secure secret management and extensible architecture.
 
-1. In Visual Studio, right-click on the MyChatApp.AppHost project in the Solution Explorer and select "Manage User Secrets".
-2. This opens a `secrets.json` file where you can store your API keys without them being tracked in source control. Add the following key and value:
+# Solution Structure
+```
+MyChatApp.sln
+├── MyChatApp.AppHost/
+├── MyChatApp.ServiceDefaults/
+├── MyChatApp.Web/
+├── MyMcpServer/
+└── MyMcpServerHttpApi/
+```
 
-   ```json
-   {
-     "ConnectionStrings:openai": "Endpoint=https://models.inference.ai.azure.com;Key=YOUR-API-KEY"
-   }
+# Prerequisites
+- [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
+- Visual Studio 2022+ or Visual Studio Code
+- (Optional) [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) for VS Code
+- (Optional, for creating your own project) Install the .NET AI Template:
+  ```bash
+  dotnet new install Microsoft.Extensions.AI.Templates
+  ```
+
+# Installation
+1. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd MyChatApp
+   ```
+2. Restore dependencies:
+   ```bash
+   dotnet restore
    ```
 
-Learn more about [prototyping with AI models using GitHub Models](https://docs.github.com/github-models/prototyping-with-ai-models).
+# Configuration & Secrets
+Before running, configure API keys and endpoints for your chosen providers.
 
-# Running the application
+## Using GitHub Models
+- Create a GitHub personal access token (PAT) with no scopes or permissions. [Guide](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens)
+- Set the secret:
+  ```bash
+  dotnet user-secrets set "GitHubModels:Token" "<your-token-value>"
+  ```
 
-## Using Visual Studio
+## Using OpenAI (via Azure)
+- Set the connection string:
+  ```bash
+  dotnet user-secrets set "ConnectionStrings:openai" "Endpoint=https://models.inference.ai.azure.com;Key=<your-token-value>"
+  ```
 
-1. Open the `.sln` file in Visual Studio.
-2. Press `Ctrl+F5` or click the "Start" button in the toolbar to run the project.
+## MyMcpServerHttpApi (GitLab)
+- Set the GitLab PAT:
+  ```bash
+  dotnet user-secrets set "GitLab:Token" "<your-token-value>"
+  ```
+- Set the GitLab domain:
+  ```bash
+  dotnet user-secrets set "GitLab:domain" "<your-domain-value>"
+  ```
 
-## Using Visual Studio Code
+> **Note:** User secrets are stored outside source control. In Visual Studio, right-click the project and select "Manage User Secrets" to edit them directly.
 
-1. Open the project folder in Visual Studio Code.
-2. Install the [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) for Visual Studio Code.
-3. Once installed, Open the `Program.cs` file in the MyChatApp.AppHost project.
-4. Run the project by clicking the "Run" button in the Debug view.
+# Usage
+## Running the Application
+- **Visual Studio:**
+  1. Open the `.sln` file.
+  2. Press `Ctrl+F5` or click "Start".
+- **Visual Studio Code:**
+  1. Open the folder.
+  2. Install the C# Dev Kit extension.
+  3. Open `Program.cs` in `MyChatApp.AppHost`.
+  4. Click "Run" in the Debug view.
 
-## Trust the localhost certificate
-
-Several .NET Aspire templates include ASP.NET Core projects that are configured to use HTTPS by default. If this is the first time you're running the project, an exception might occur when loading the Aspire dashboard. This error can be resolved by trusting the self-signed development certificate with the .NET CLI.
-
-See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.microsoft.com/dotnet/aspire/troubleshooting/untrusted-localhost-certificate) for more information.
-
-# Learn More
-To learn more about development with .NET and AI, check out the following links:
-
-* [AI for .NET Developers](https://learn.microsoft.com/dotnet/ai/)
-
-
----
-
-# Secrets
-
-## MyChatApp.Web
-
-
-GitHub PAT
-
-_should not have any scopes or permissions_
-
+## Trust the Localhost Certificate
+If running for the first time, trust the self-signed development certificate:
 ```bash
-dotnet user-secrets set "GitHubModels:Token" "<your-token-value>"
+dotnet dev-certs https --trust
+```
+See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.microsoft.com/dotnet/aspire/troubleshooting/untrusted-localhost-certificate).
+
+## Example Prompts
+1. **Markdown Table**
+   > Get a list of GitLab groups as a markdown table with name, web_url (as 'click me'), parent_id, and an emoji for has_subgroups. Group by parent id. Include group id in brackets after the name.
+   ![alt text](images/readme-table.png)
+2. **Tree Structure**
+   > Create a tree structure nesting groups by parent id and group id.
+   ![alt text](images/readme-tree.png)
+
+# Testing
+To run unit tests:
+```bash
+dotnet test
 ```
 
-ConnectionStrings for OpenAI (use for GH Model)
+# Deployment
+- Standard .NET deployment applies. For cloud or container deployment, ensure secrets are set via environment variables or a secure store.
 
-```bash
-dotnet user-secrets set "ConnectionStrings:openai" "Endpoint=https://models.inference.ai.azure.com;Key=<your-token-value>"
-```
+# Troubleshooting
+- **Untrusted certificate:** See the [troubleshooting guide](https://learn.microsoft.com/dotnet/aspire/troubleshooting/untrusted-localhost-certificate).
+- **Secrets not found:** Ensure you have set user secrets for each project as described above.
 
-## MyMcpServerHttpApi
+# FAQ
+**Q: Can I use other AI providers?**
+A: Yes, extend the configuration and services as needed.
 
-GitLab PAT
+**Q: Where are secrets stored?**
+A: User secrets are stored outside source control in a local secrets.json file.
 
-```bash
+# Contributing
+Contributions are welcome! Please open issues or submit pull requests. For major changes, open an issue first to discuss your proposal.
 
-dotnet user-secrets set "GitLab:Token" "<your-token-value>"
-```
+# License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
 
-GitLab Domain
+# Acknowledgments
+- [.NET Aspire](https://learn.microsoft.com/dotnet/aspire/)
+- [AI for .NET Developers](https://learn.microsoft.com/dotnet/ai/)
+- Third-party libraries as referenced in the project
 
-```bash
+# Contact
+For support or inquiries, please open an issue or contact the maintainer via GitHub.
 
-dotnet user-secrets set "GitLab:domain" "<your-domain-value>"
-```
-
----
-
-# Example prompts:
-
-You will be prompt for a group name after you enter these prommpts.
-
-1 - A markdown table
-
->[!NOTE]
-> I would like to get a list of gitlab groups based on a search pattern and the result to be put in a  markdown table including their (1) name, (2) have web_url as a url link with the word 'click me' and (3) parent_id and (4) a suitable emoji to indicate if has_subgroups is true. if a group has the parent id that equals the group Id, then group those beneath it. include the group id in brackets after the group name
-
-![alt text](images/readme-table.png)
-
-2 - A Tree structure
-
->[!NOTE]
-> Create a tree structure nesting the groups by parent id and group id
-
-![alt text](images/readme-tree.png)
+# References
+- [Announcing .NET AI Template Preview 1](https://devblogs.microsoft.com/dotnet/announcing-dotnet-ai-template-preview1/)
 
