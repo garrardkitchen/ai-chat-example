@@ -8,11 +8,15 @@ namespace MyChatApp.Web.Services
     {
         private readonly string[] _toolsToUse = ["WhoIs", "SearchGroups"];
 
+        private static readonly string _mcpServerName = "mcp-server";
+        
+        private static readonly string _httpScheme = "http";
+
         private readonly Task<IMcpClient> _clientTask = McpClientFactory.CreateAsync(
 
             clientTransport: new SseClientTransport(new SseClientTransportOptions()
             {
-                Endpoint = new Uri($"{Environment.GetEnvironmentVariable($"services__mcp-server__http__0")}/sse"),
+                Endpoint = new Uri($"{Environment.GetEnvironmentVariable($"services__{_mcpServerName}__{_httpScheme}__0")}/sse"),
             }),
                
             clientOptions: new()
