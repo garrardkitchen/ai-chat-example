@@ -8,10 +8,14 @@ var openai = builder.AddConnectionString("openai");
 
 var ingestionCache = builder.AddSqlite("ingestionCache");
 
+var mcpServer = builder.AddProject<Projects.MyMcpServerHttpApi>("mcp-server").WithExternalHttpEndpoints();
+
 var webApp = builder.AddProject<Projects.MyChatApp_Web>("aichatweb-app");
 webApp.WithReference(openai);
 webApp
     .WithReference(ingestionCache)
+    .WaitFor(mcpServer)
+    .WithReference(mcpServer)
     .WaitFor(ingestionCache);
 
 builder.Build().Run();

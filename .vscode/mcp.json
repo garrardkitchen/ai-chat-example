@@ -1,0 +1,8 @@
+{
+    "servers": {
+        "my-mcp-server-3657eacd": {
+            "type": "sse",
+            "url": "http://localhost:5167/sse"
+        }
+    }
+}

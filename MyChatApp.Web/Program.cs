@@ -1,6 +1,8 @@
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.VectorData;
+//using ModelContextProtocol.Client;
+//using ModelContextProtocol.Protocol.Transport;
 using MyChatApp.Web.Components;
 using MyChatApp.Web.Services;
 using MyChatApp.Web.Services.Ingestion;
@@ -27,6 +29,7 @@ builder.Services.AddSingleton<SemanticSearch>();
 builder.AddSqliteDbContext<IngestionCacheDbContext>("ingestionCache");
 builder.Services.AddChatClient(chatClient).UseFunctionInvocation().UseLogging();
 builder.Services.AddEmbeddingGenerator(embeddingGenerator);
+builder.Services.AddSingleton<McpService>();
 
 var app = builder.Build();
 IngestionCacheDbContext.Initialize(app.Services);

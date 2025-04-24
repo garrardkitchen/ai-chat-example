@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <Sdk Name="Aspire.AppHost.Sdk" Version="9.2.0" />
 
@@ -18,6 +18,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MyChatApp.Web\MyChatApp.Web.csproj" />
+    <ProjectReference Include="..\MyMcpServerHttpApi\MyMcpServerHttpApi.csproj" />
+    <ProjectReference Include="..\MyMcpServer\MyMcpServer.csproj" />
   </ItemGroup>
 
 </Project>

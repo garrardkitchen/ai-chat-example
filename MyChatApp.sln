@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatApp.ServiceDefaults",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatApp.Web", "MyChatApp.Web\MyChatApp.Web.csproj", "{9B448362-92C5-5AD8-406D-ECA538315BF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMcpServer", "MyMcpServer\MyMcpServer.csproj", "{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMcpServerHttpApi", "MyMcpServerHttpApi\MyMcpServerHttpApi.csproj", "{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{9B448362-92C5-5AD8-406D-ECA538315BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B448362-92C5-5AD8-406D-ECA538315BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B448362-92C5-5AD8-406D-ECA538315BF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

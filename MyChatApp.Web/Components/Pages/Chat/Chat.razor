@@ -1,8 +1,10 @@
 ﻿@page "/"
 @using System.ComponentModel
+@* @using ModelContextProtocol.Client *@
 @inject IChatClient ChatClient
 @inject NavigationManager Nav
 @inject SemanticSearch Search
+@inject McpService mcpService
 @implements IDisposable
 
 <PageTitle>Chat</PageTitle>
@@ -46,11 +48,14 @@
     private ChatMessage? currentResponseMessage;
     private ChatInput? chatInput;
     private ChatSuggestions? chatSuggestions;
-
-    protected override void OnInitialized()
+    
+    protected override async Task OnInitializedAsync()
     {
         messages.Add(new(ChatRole.System, SystemPrompt));
-        chatOptions.Tools = [AIFunctionFactory.Create(SearchAsync)];
+        chatOptions.Tools = [
+            AIFunctionFactory.Create(SearchAsync),
+            .. await mcpService.GetToolsAsync()
+        ];
     }
 
     private async Task AddUserMessageAsync(ChatMessage userMessage)

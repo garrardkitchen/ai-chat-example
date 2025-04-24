@@ -47,3 +47,62 @@ See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.
 To learn more about development with .NET and AI, check out the following links:
 
 * [AI for .NET Developers](https://learn.microsoft.com/dotnet/ai/)
+
+
+---
+
+# Secrets
+
+## MyChatApp.Web
+
+
+GitHub PAT
+
+_should not have any scopes or permissions_
+
+```bash
+dotnet user-secrets set "GitHubModels:Token" "<your-token-value>"
+```
+
+ConnectionStrings for OpenAI (use for GH Model)
+
+```bash
+dotnet user-secrets set "ConnectionStrings:openai" "Endpoint=https://models.inference.ai.azure.com;Key=<your-token-value>"
+```
+
+## MyMcpServerHttpApi
+
+GitLab PAT
+
+```bash
+
+dotnet user-secrets set "GitLab:Token" "<your-token-value>"
+```
+
+GitLab Domain
+
+```bash
+
+dotnet user-secrets set "GitLab:domain" "<your-domain-value>"
+```
+
+---
+
+# Example prompts:
+
+You will be prompt for a group name after you enter these prommpts.
+
+1 - A markdown table
+
+>[!NOTE]
+> I would like to get a list of gitlab groups based on a search pattern and the result to be put in a  markdown table including their (1) name, (2) have web_url as a url link with the word 'click me' and (3) parent_id and (4) a suitable emoji to indicate if has_subgroups is true. if a group has the parent id that equals the group Id, then group those beneath it. include the group id in brackets after the group name
+
+![alt text](images/readme-table.png)
+
+2 - A Tree structure
+
+>[!NOTE]
+> Create a tree structure nesting the groups by parent id and group id
+
+![alt text](images/readme-tree.png)
+
