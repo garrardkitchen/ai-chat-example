@@ -11,7 +11,6 @@ An AI chat application that demonstrates how to chat with custom data using an A
 - [Installation](#installation)
 - [Configuration & Secrets](#configuration--secrets)
 - [Usage](#usage)
-- [Testing](#testing)
 - [Deployment](#deployment)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
@@ -27,6 +26,7 @@ An AI chat application that demonstrates how to chat with custom data using an A
 AI Chat with Custom Data enables users to interact with AI models using their own data sources. It supports multiple providers, including GitHub Models and OpenAI endpoints, and demonstrates secure secret management and extensible architecture.
 
 # Solution Structure
+
 ```
 MyChatApp.sln
 ├── MyChatApp.AppHost/
@@ -104,17 +104,17 @@ See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.
 
 ## Example Prompts
 1. **Markdown Table**
-   > Get a list of GitLab groups as a markdown table with name, web_url (as 'click me'), parent_id, and an emoji for has_subgroups. Group by parent id. Include group id in brackets after the name.
+
+   Get a list of GitLab groups as a markdown table with name, web_url (as 'click me'), parent_id, and an emoji for has_subgroups. Group by parent id. Include group id in brackets after the name.
+
    ![alt text](images/readme-table.png)
+
 2. **Tree Structure**
-   > Create a tree structure nesting groups by parent id and group id.
+   
+   Create a tree structure nesting groups by parent id and group id.
+
    ![alt text](images/readme-tree.png)
 
-# Testing
-To run unit tests:
-```bash
-dotnet test
-```
 
 # Deployment
 - Standard .NET deployment applies. For cloud or container deployment, ensure secrets are set via environment variables or a secure store.
