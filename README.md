@@ -1,6 +1,6 @@
 # AI Chat with Custom Data
 
-An AI chat application that demonstrates how to chat with custom data using an AI language model. This template is in early preview—[share your feedback](https://aka.ms/dotnet-chat-templatePreview2-survey).
+An AI chat application that demonstrates how to chat with custom data using an AI language model. 
 
 ---
 
