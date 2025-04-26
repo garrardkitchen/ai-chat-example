@@ -14,6 +14,8 @@
     <PackageReference Include="Aspire.Azure.Storage.Blobs" Version="9.2.1" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.24.0" />
     <PackageReference Include="Azure.Identity" Version="1.13.2" />
+    <PackageReference Include="Markdig" Version="0.41.0" />
+    <PackageReference Include="Select.HtmlToPdf.NetCore" Version="25.1.0" />
   </ItemGroup>
 
 </Project>

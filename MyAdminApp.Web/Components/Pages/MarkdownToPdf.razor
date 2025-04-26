@@ -1,0 +1,147 @@
+@page "/markdown-to-pdf"
+@using MyAdminApp.Web.Services
+@using Markdig
+@using SelectPdf
+@inject BlobStorageService BlobStorageService
+@inject ILogger<MarkdownToPdf> Logger
+@rendermode InteractiveServer
+
+<PageTitle>Markdown to PDF</PageTitle>
+
+<h1>Markdown to PDF</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                    <li class="nav-item">
+                        <button type="button" class="nav-link @(activeTab == "edit" ? "active" : "")" @onclick="SetTab">Edit Markdown</button>
+                    </li>
+                    <li class="nav-item">
+                        <button type="button" class="nav-link @(activeTab == "preview" ? "active" : "")" @onclick="SetTab">Preview</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                @if (activeTab == "edit")
+                {
+                    <div class="mb-3">
+                        <label for="markdownInput" class="form-label">Enter Markdown:</label>
+                        <textarea id="markdownInput" class="form-control" style="min-height: 300px; font-family: monospace; font-size: 1.1em;" @bind="markdownText"></textarea>
+                    </div>
+                }
+                else if (activeTab == "preview")
+                {
+                    <div class="mb-3">
+                        <label class="form-label">Preview:</label>
+                        <div class="border p-3 bg-light" style="min-height: 300px;">
+                            @((MarkupString)previewHtml)
+                        </div>
+                    </div>
+                }
+                <div class="mt-3">
+                    <button class="btn btn-primary" @onclick="ConvertAndUploadPdf" disabled="@isUploading">
+                        <span class="bi bi-file-earmark-pdf"></span> Convert to PDF & Upload
+                    </button>
+                </div>
+                @if (!string.IsNullOrEmpty(uploadResult))
+                {
+                    <div class="alert @(uploadSuccess ? "alert-success" : "alert-danger") mt-3">
+                        @uploadResult
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string markdownText = string.Empty;
+    private string previewHtml = string.Empty;
+    private string activeTab = "edit";
+    private bool isUploading = false;
+    private string uploadResult = string.Empty;
+    private bool uploadSuccess = false;
+
+    private void SetTab()
+    {
+        if (activeTab == "preview")
+        {
+            activeTab = "edit";
+        }
+        else
+        {
+            activeTab = "preview";
+        }
+        if (activeTab == "preview")
+        {
+            previewHtml = Markdown.ToHtml(markdownText ?? "");
+        }
+    }
+
+    private async Task ConvertAndUploadPdf()
+    {
+        isUploading = true;
+        uploadResult = string.Empty;
+        uploadSuccess = false;
+        try
+        {
+            // Convert markdown to PDF (in-memory)          
+            var pdfBytes = await ConvertMarkdownToPdf(markdownText);
+            var fileName = $"Markdown_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+            using var stream = new MemoryStream(pdfBytes);
+            var browserFile = new StreamFile(stream, fileName, "application/pdf");
+            var result = await BlobStorageService.UploadFileAsync(browserFile, "pdf");
+            if (result != null)
+            {
+                uploadSuccess = true;
+                uploadResult = $"PDF uploaded successfully as {fileName}.";
+            }
+            else
+            {
+                uploadResult = "Failed to upload PDF.";
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error converting or uploading PDF");
+            uploadResult = $"Error: {ex.Message}";
+        }
+        finally
+        {
+            isUploading = false;
+        }
+    }
+    
+    private async Task<byte[]> ConvertMarkdownToPdf(string markdown)
+    {
+        // Convert markdown to PDF (in-memory)
+        HtmlToPdf converter = new HtmlToPdf();
+        var html = Markdown.ToHtml(markdown ?? "");
+        var doc = converter.ConvertHtmlString(html);
+        doc.DocumentInformation.Title = "Markdown PDF";
+        doc.DocumentInformation.Subject = "Created by Garrard Kitchen";
+        doc.DocumentInformation.Keywords = "ai chat RAG demo";
+        return doc.Save();
+    }
+    
+    // Helper class to wrap a stream as IBrowserFile
+    private class StreamFile : IBrowserFile
+    {
+        public StreamFile(Stream stream, string name, string contentType)
+        {
+            Stream = stream;
+            Name = name;
+            ContentType = contentType;
+            LastModified = DateTimeOffset.Now;
+            Size = stream.Length;
+        }
+        public string Name { get; }
+        public DateTimeOffset LastModified { get; }
+        public long Size { get; }
+        public string ContentType { get; }
+        public Stream OpenReadStream(long maxAllowedSize = 512000, CancellationToken cancellationToken = default) => Stream;
+        private Stream Stream { get; }
+    }
+}
