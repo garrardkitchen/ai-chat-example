@@ -79,17 +79,18 @@ public class AzureBlobPdfSource : IIngestionSource
     }
 
     // New method: process a PDF from a blob URL
-    public async Task<IEnumerable<SemanticSearchRecord>> ProcessBlobUrlAsync(IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator, string blobUrl)
+    public async Task<IEnumerable<SemanticSearchRecord>> ProcessBlobUrlAsync(IEmbeddingGenerator<string, Embedding<float>> embeddingGenerator, string blobName)
     {
-        var blobClient = new BlobClient(new Uri(blobUrl));
+        _logger.LogInformation("Processing blob URL: {blobName}", blobName);
+        var blobClient = _containerClient.GetBlobClient(blobName);
         using var stream = await blobClient.OpenReadAsync();
         using var pdf = PdfDocument.Open(stream);
         var paragraphs = pdf.GetPages().SelectMany(GetPageParagraphs).ToList();
         var embeddings = await embeddingGenerator.GenerateAsync(paragraphs.Select(c => c.Text));
         return paragraphs.Zip(embeddings).Select((pair, index) => new SemanticSearchRecord
         {
-            Key = $"{Path.GetFileNameWithoutExtension(blobUrl)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
-            FileName = blobUrl,
+            Key = $"{Path.GetFileNameWithoutExtension(blobName)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
+            FileName = blobName,
             PageNumber = pair.First.PageNumber,
             Text = pair.First.Text,
             Vector = pair.Second.Vector,

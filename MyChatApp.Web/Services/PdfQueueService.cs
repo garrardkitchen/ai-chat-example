@@ -11,18 +11,22 @@ public class PdfQueueService : BackgroundService
     // private readonly DataIngestor _dataIngestor;
     private readonly BlobServiceClient _blobServiceClient;
     private readonly ILogger<AzureBlobPdfSource> _blobLogger;
+    private readonly IServiceProvider _serviceProvider;
+
 
     public PdfQueueService(QueueServiceClient queueServiceClient, 
         ILogger<PdfQueueService> logger, 
         // DataIngestor dataIngestor, 
         BlobServiceClient blobServiceClient, 
-        ILogger<AzureBlobPdfSource> blobLogger)
+        ILogger<AzureBlobPdfSource> blobLogger,
+        IServiceProvider serviceProvider)
     {
         _logger = logger;
         // _dataIngestor = dataIngestor;
         _blobServiceClient = blobServiceClient;
         _blobLogger = blobLogger;
         _queueClient = queueServiceClient.GetQueueClient("new-pdf-queue");
+        _serviceProvider = serviceProvider;
         // _queueClient.CreateIfNotExists();
     }
     
@@ -41,16 +45,24 @@ public class PdfQueueService : BackgroundService
         {
             var message = response.Value;
             await _queueClient.DeleteMessageAsync(message.MessageId, message.PopReceipt);
-            _logger.LogInformation("PDF Blob: {message}", message.MessageText);
-            return message.MessageText;
+            
+            // convert base64 bytes to string
+            var bytes = Convert.FromBase64String(message.MessageText);
+            var blobName = System.Text.Encoding.UTF8.GetString(bytes);
+            
+            _logger.LogInformation("PDF Blob: {message}", blobName);
+            return blobName;
         }
         return null;
     }
 
-    protected async Task IngestBlob(string url, CancellationToken stoppingToken)
+    protected async Task IngestBlob(string blobName, CancellationToken stoppingToken)
     {
         // await _dataIngestor.IngestDataAsync(new AzureBlobPdfSource(_blobServiceClient, "pdf", _blobLogger));
-        
+        using var scope = _serviceProvider.CreateScope();
+        var dataIngestor = scope.ServiceProvider.GetRequiredService<DataIngestor>();
+        var source = new AzureBlobPdfSource(_blobServiceClient, "pdf", _blobLogger);
+        await dataIngestor.IngestBlobAsync(source, blobName);
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -58,10 +70,10 @@ public class PdfQueueService : BackgroundService
         while (!stoppingToken.IsCancellationRequested)
         {
             _logger.LogInformation("Background Service is running at: {time}", DateTimeOffset.Now);
-            var blobUrl = await DequeuePdfAsync();
-            if (blobUrl != null)
+            var blobName = await DequeuePdfAsync();
+            if (blobName != null)
             {
-                await IngestBlob(blobUrl, stoppingToken);
+                await IngestBlob(blobName, stoppingToken);
             }
             await Task.Delay(5000, stoppingToken); // Run every second
         }
