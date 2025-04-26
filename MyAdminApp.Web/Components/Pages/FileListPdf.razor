@@ -1,0 +1,130 @@
+@page "/file-list-pdf"
+@using MyAdminApp.Web.Services
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@inject BlobStorageService BlobStorageService
+@inject ILogger<FileUpload> Logger
+@rendermode InteractiveServer
+
+<PageTitle>PDFs</PageTitle>
+
+<h1><b>PDF</b> Files Uploaded to Azure Blob Storage</h1>
+<br/>
+
+<div class="row">
+  
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h3>Uploaded Files</h3>
+            </div>
+            <div class="card-body">
+                <button class="btn btn-sm btn-secondary" @onclick="RefreshFileList">Refresh</button>
+                <hr />
+                
+                @if (isLoading)
+                {
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                }
+                else if (uploadedFiles.Count == 0)
+                {
+                    <div class="alert alert-info">No files uploaded yet.</div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Size</th>
+                                <th>Last Modified</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var file in uploadedFiles)
+                            {
+                                <tr>
+                                    <td>
+                                        <a href="@file.Uri" target="_blank">@file.Name</a>
+                                    </td>
+                                    <td>@FormatFileSize(file.Size)</td>
+                                    <td>@file.LastModified.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger" @onclick="() => DeleteFile(file.Name)">
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<IBrowserFile> selectedFiles = new();
+    private List<BlobItemInfo> uploadedFiles = new();
+    private bool isUploading = false;
+    private bool isLoading = false;
+    private string uploadResult = "";
+    private bool uploadSuccess = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadUploadedFiles();
+    }
+
+    private async Task LoadUploadedFiles()
+    {
+        try
+        {
+            isLoading = true;
+            uploadedFiles = await BlobStorageService.ListFilesAsync("pdf");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading uploaded files");
+        }
+        finally
+        {
+            isLoading = false;
+            StateHasChanged();
+        }
+    }
+    
+    private async Task RefreshFileList()
+    {
+        await LoadUploadedFiles();
+    }
+
+    private async Task DeleteFile(string fileName)
+    {
+        if (await BlobStorageService.DeleteFileAsync(fileName))
+        {
+            await LoadUploadedFiles();
+        }
+    }
+
+    private string FormatFileSize(long bytes)
+    {
+        string[] suffixes = { "B", "KB", "MB", "GB", "TB" };
+        int counter = 0;
+        decimal number = bytes;
+        while (Math.Round(number / 1024) >= 1)
+        {
+            number /= 1024;
+            counter++;
+        }
+        return $"{number:n1} {suffixes[counter]}";
+    }
+}
