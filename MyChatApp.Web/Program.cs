@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.VectorData;
@@ -31,6 +32,26 @@ builder.AddSqliteDbContext<IngestionCacheDbContext>("ingestionCache");
 builder.Services.AddChatClient(chatClient).UseFunctionInvocation().UseLogging();
 builder.Services.AddEmbeddingGenerator(embeddingGenerator);
 builder.Services.AddSingleton<McpService>();
+builder.AddAzureBlobClient("blobs");
+
+//
+// // Register BlobContainerClient for the "blobs" container from Aspire
+// builder.Services.AddSingleton(sp =>
+// {
+//     var blobServiceClient = sp.GetRequiredService<BlobServiceClient>();
+//     var config = sp.GetRequiredService<IConfiguration>();
+//     var containerName = config["Azure:Storage:Blobs:ContainerName"] ?? "blobs";
+//     return blobServiceClient.GetBlobContainerClient(containerName);
+// });
+
+// Register AzureBlobPdfSource for DI
+// builder.Services.AddScoped<IIngestionSource, AzureBlobPdfSource>(sp =>
+// {
+//     var containerClient = sp.GetRequiredService<BlobContainerClient>();
+//     var config = sp.GetRequiredService<IConfiguration>();
+//     var containerName = config["Azure:Storage:Blobs:ContainerName"] ?? "blobs";
+//     return new AzureBlobPdfSource(containerClient, containerName);
+// });
 
 var app = builder.Build();
 IngestionCacheDbContext.Initialize(app.Services);
@@ -59,5 +80,10 @@ app.MapRazorComponents<App>()
 await DataIngestor.IngestDataAsync(
     app.Services,
     new PDFDirectorySource(Path.Combine(builder.Environment.WebRootPath, "Data")));
+
+// To ingest from Azure Blob Storage, use AzureBlobPdfSource instead of PDFDirectorySource:
+// I want to get BlobContainerClient from DI
+var blobServiceClient = app.Services.GetRequiredService<BlobServiceClient>();
+await DataIngestor.IngestDataAsync(app.Services, new AzureBlobPdfSource(blobServiceClient, "pdf"));
 
 app.Run();

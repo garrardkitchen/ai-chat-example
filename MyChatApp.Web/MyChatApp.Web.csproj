@@ -17,6 +17,8 @@
     <PackageReference Include="PdfPig" Version="0.1.9" />
     <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     <PackageReference Include="ModelContextProtocol" Version="0.1.0-preview.10" />
+    <PackageReference Include="Aspire.Azure.Storage.Blobs" Version="9.2.1" />
+    <PackageReference Include="Aspire.Azure.Storage.Queues" Version="9.2.1" />
   </ItemGroup>
 
   <ItemGroup>

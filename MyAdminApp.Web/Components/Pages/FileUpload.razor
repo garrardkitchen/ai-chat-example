@@ -127,14 +127,16 @@
     protected override async Task OnInitializedAsync()
     {
         await LoadUploadedFiles();
+        await LoadUploadedFiles("pdf");
     }
 
-    private async Task LoadUploadedFiles()
+    private async Task LoadUploadedFiles(string containerName = null)
     {
         try
         {
             isLoading = true;
-            uploadedFiles = await BlobStorageService.ListFilesAsync();
+            var files = await BlobStorageService.ListFilesAsync(containerName);
+            uploadedFiles.AddRange(files);
         }
         catch (Exception ex)
         {
@@ -172,7 +174,7 @@
             var tasks = new List<Task<string?>>();
             foreach (var file in selectedFiles)
             {
-                tasks.Add(BlobStorageService.UploadFileAsync(file));
+                tasks.Add(BlobStorageService.UploadFileAsync(file, file.Name.EndsWith(".pdf") ? "pdf":null));
             }
 
             var results = await Task.WhenAll(tasks);
@@ -182,7 +184,7 @@
             {
                 uploadResult = $"Successfully uploaded {selectedFiles.Count} file(s).";
                 selectedFiles.Clear();
-                await LoadUploadedFiles();
+                await RefreshFileList();
             }
             else
             {
@@ -204,14 +206,16 @@
 
     private async Task RefreshFileList()
     {
+        uploadedFiles = new List<BlobItemInfo>();
         await LoadUploadedFiles();
+        await LoadUploadedFiles("pdf");
     }
 
     private async Task DeleteFile(string fileName)
     {
         if (await BlobStorageService.DeleteFileAsync(fileName))
         {
-            await LoadUploadedFiles();
+            await RefreshFileList();
         }
     }
 

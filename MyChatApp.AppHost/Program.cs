@@ -19,6 +19,8 @@ webApp
     .WithReference(ingestionCache)
     .WaitFor(mcpServer)
     .WithReference(mcpServer)
+    .WaitFor(blobStorage)
+    .WithReference(blobStorage)
     .WaitFor(ingestionCache);
 
 var adminWeb = builder.AddProject<Projects.MyAdminApp_Web>("admin-web")
