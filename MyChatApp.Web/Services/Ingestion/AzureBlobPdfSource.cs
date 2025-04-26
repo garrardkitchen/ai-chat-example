@@ -14,14 +14,17 @@ public class AzureBlobPdfSource : IIngestionSource
     private readonly BlobContainerClient _containerClient;
     public string SourceId { get; }
     private readonly string _containerName;
+    private readonly ILogger<AzureBlobPdfSource> _logger;
 
-    public AzureBlobPdfSource(BlobServiceClient blobServiceClient, string containerName)
+    public AzureBlobPdfSource(BlobServiceClient blobServiceClient, string containerName, ILogger<AzureBlobPdfSource> logger)
     {
         // _containerClient = containerClient;
         _containerClient = blobServiceClient.GetBlobContainerClient(containerName);
         _containerClient.CreateIfNotExists();
         _containerName = containerName;
         SourceId = $"AzureBlobPdfSource:{containerName}";
+        _logger = logger;
+        _logger.LogInformation("AzureBlobPdfSource initialized with container: {containerName}", containerName);
     }
 
     public async Task<IEnumerable<IngestedDocument>> GetNewOrModifiedDocumentsAsync(IQueryable<IngestedDocument> existingDocuments)
@@ -30,6 +33,8 @@ public class AzureBlobPdfSource : IIngestionSource
         await foreach (var blob in _containerClient.GetBlobsAsync())
         {
             if (!blob.Name.EndsWith(".pdf", StringComparison.OrdinalIgnoreCase)) continue;
+            _logger.LogInformation("Getting new or modified document: {blobName}", blob.Name);
+            
             var version = blob.Properties.LastModified?.UtcDateTime.ToString("o") ?? "unknown";
             var existing = await existingDocuments.FirstOrDefaultAsync(d => d.SourceId == SourceId && d.Id == blob.Name);
             if (existing == null)

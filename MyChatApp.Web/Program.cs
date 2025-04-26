@@ -33,7 +33,8 @@ builder.Services.AddChatClient(chatClient).UseFunctionInvocation().UseLogging();
 builder.Services.AddEmbeddingGenerator(embeddingGenerator);
 builder.Services.AddSingleton<McpService>();
 builder.AddAzureBlobClient("blobs");
-
+builder.AddAzureQueueClient("queues");
+builder.Services.AddHostedService<PdfQueueService>();
 //
 // // Register BlobContainerClient for the "blobs" container from Aspire
 // builder.Services.AddSingleton(sp =>
@@ -84,6 +85,7 @@ await DataIngestor.IngestDataAsync(
 // To ingest from Azure Blob Storage, use AzureBlobPdfSource instead of PDFDirectorySource:
 // I want to get BlobContainerClient from DI
 var blobServiceClient = app.Services.GetRequiredService<BlobServiceClient>();
-await DataIngestor.IngestDataAsync(app.Services, new AzureBlobPdfSource(blobServiceClient, "pdf"));
+var logger = app.Services.GetRequiredService<ILogger<AzureBlobPdfSource>>();
+await DataIngestor.IngestDataAsync(app.Services, new AzureBlobPdfSource(blobServiceClient, "pdf", logger) );
 
 app.Run();

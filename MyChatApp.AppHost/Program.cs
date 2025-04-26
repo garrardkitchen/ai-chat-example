@@ -11,7 +11,7 @@ var ingestionCache = builder.AddSqlite("ingestionCache");
 // Add Azure Blob Storage for file uploads
 var storage = builder.AddAzureStorage("blobStorage").RunAsEmulator();
 var blobs = storage.AddBlobs("blobs");
-var queues = storage.AddBlobs("queues");
+var queues = storage.AddQueues("queues");
 
 
 var mcpServer = builder.AddProject<Projects.MyMcpServerHttpApi>("mcp-server").WithExternalHttpEndpoints();
