@@ -63,12 +63,14 @@ public class DataIngestor(
 
     public async Task IngestBlobAsync(AzureBlobPdfSource source, string blobName)
     {
+        logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
+        
         var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
         await vectorCollection.CreateCollectionIfNotExistsAsync();
-
-        logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
+        
         var newRecords = await source.ProcessBlobUrlAsync(embeddingGenerator, blobName);
         await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
+        
         logger.LogInformation("Blob ingestion complete for {blobUrl}", blobName);
     }
 }
