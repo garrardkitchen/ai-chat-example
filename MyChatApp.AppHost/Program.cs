@@ -9,7 +9,10 @@ var openai = builder.AddConnectionString("openai");
 var ingestionCache = builder.AddSqlite("ingestionCache");
 
 // Add Azure Blob Storage for file uploads
-var blobStorage = builder.AddAzureStorage("blobStorage").RunAsEmulator().AddBlobs("blobs");
+var storage = builder.AddAzureStorage("blobStorage").RunAsEmulator();
+var blobs = storage.AddBlobs("blobs");
+var queues = storage.AddBlobs("queues");
+
 
 var mcpServer = builder.AddProject<Projects.MyMcpServerHttpApi>("mcp-server").WithExternalHttpEndpoints();
 
@@ -19,13 +22,18 @@ webApp
     .WithReference(ingestionCache)
     .WaitFor(mcpServer)
     .WithReference(mcpServer)
-    .WaitFor(blobStorage)
-    .WithReference(blobStorage)
+    .WaitFor(storage)
+    .WaitFor(blobs).WithReference(blobs)
+    .WaitFor(queues).WithReference(queues)
     .WaitFor(ingestionCache);
 
 var adminWeb = builder.AddProject<Projects.MyAdminApp_Web>("admin-web")
-    .WaitFor(blobStorage)
-    .WithReference(blobStorage);
-    
+    .WaitFor(blobs).WithReference(blobs);
+
+var functionApp = builder.AddAzureFunctionsProject<Projects.MyFunctionApp>("functions")
+    .WaitFor(storage)
+    .WithHostStorage(storage)
+    .WaitFor(blobs).WithReference(blobs)
+    .WaitFor(queues).WithReference(queues);
 
 builder.Build().Run();
