@@ -1,6 +1,6 @@
-# AI Chat with Custom Data
+# AI Chat Application with RAG and MCP Servers
 
-An AI chat application that demonstrates how to chat with custom data using an AI language model. 
+An .NET Aspire AI chat application that demonstrates how to chat with custom data (RAG - Event Driven) and context extensions (MCP Server) using an AI language model. 
 
 ---
 
@@ -23,7 +23,8 @@ An AI chat application that demonstrates how to chat with custom data using an A
 ---
 
 # Project Overview
-AI Chat with Custom Data enables users to interact with AI models using their own data sources. It supports multiple providers, including GitHub Models and OpenAI endpoints, and demonstrates secure secret management and extensible architecture.
+
+AI Chat with Custom Data enables users to interact with AI models using their own data sources (RAG and MCP Server). It supports multiple providers, including GitHub Models and OpenAI endpoints.
 
 # Features
 
