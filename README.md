@@ -25,24 +25,46 @@ An AI chat application that demonstrates how to chat with custom data using an A
 # Project Overview
 AI Chat with Custom Data enables users to interact with AI models using their own data sources. It supports multiple providers, including GitHub Models and OpenAI endpoints, and demonstrates secure secret management and extensible architecture.
 
+# Features
+
+- Interact with AI models using template provided 2x PDFs (OOB with Microsoft.Extensions.AI.Templates)
+- MCP Server WhoIs tool `new`
+- MCP Server GitLab SearchGroups tool (requires 2x user secrets) `new`
+- Upload prewritten PDFs to use when interacting with the AI model `new`
+- Dynamically create PDFs from markdown to then use when interacting with the AI Model `new`
+
+# HLD
+
+![](design/hld.png)
+
 # Solution Structure
 
 ```
 MyChatApp.sln
+├── MyAdminApp.Web/
 ├── MyChatApp.AppHost/
 ├── MyChatApp.ServiceDefaults/
 ├── MyChatApp.Web/
-├── MyMcpServer/
+├── MyFunctionApp/
 └── MyMcpServerHttpApi/
 ```
 
 # Prerequisites
-- [.NET SDK 8.0+](https://dotnet.microsoft.com/download)
+- [.NET SDK 9.0+](https://dotnet.microsoft.com/download)
+
 - Visual Studio 2022+ or Visual Studio Code
+- GitHub Account (Copilot enabled)
+- Docker for running Azurite (required for emulating Azure Blob Storage and Queues, and Azure Functions)
+- (Optional, if you want to use the MCP Inspector) NodeJS
+- (Optional) GitLab account if you want to use the MCP SearchGroup tool
 - (Optional) [C# Dev Kit extension](https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csdevkit) for VS Code
 - (Optional, for creating your own project) Install the .NET AI Template:
   ```bash
   dotnet new install Microsoft.Extensions.AI.Templates
+  ```
+- (Optional, for debugging and testing the MCP Server tools)
+  ```bash
+  npx @modelcontextprotocol/inspector dotnet run
   ```
 
 # Installation

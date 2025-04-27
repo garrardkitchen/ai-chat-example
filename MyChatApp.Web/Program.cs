@@ -21,7 +21,7 @@ var openAIOptions = new OpenAIClientOptions()
 
 var ghModelsClient = new OpenAIClient(credential, openAIOptions);
 // var chatClient = ghModelsClient.GetChatClient("gpt-4o-mini").AsIChatClient();
-var chatClient = ghModelsClient.GetChatClient("gpt-4o").AsIChatClient();
+var chatClient = ghModelsClient.GetChatClient("gpt-4o-mini").AsIChatClient();
 var embeddingGenerator = ghModelsClient.GetEmbeddingClient("text-embedding-3-small").AsIEmbeddingGenerator();
 
 var vectorStore = new JsonVectorStore(Path.Combine(AppContext.BaseDirectory, "vector-store"));
