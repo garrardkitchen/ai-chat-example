@@ -2,6 +2,12 @@
 
 An .NET Aspire AI chat application that demonstrates how to chat with custom data (RAG - Event Driven) and context extensions (MCP Server) using an AI language model. 
 
+>[!NOTE]
+> This version does not deploy to Azure
+
+>[!NOTE]
+> PDFs that you upload, albeit shown as a citation, they cannot be opened (yet)
+
 ---
 
 # Table of Contents
