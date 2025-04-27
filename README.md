@@ -67,6 +67,7 @@ MyChatApp.sln
   ```bash
   npx @modelcontextprotocol/inspector dotnet run
   ```
+- (Optional, for confirming blobs uploads and queues) Install the [Microsoft Azure Storage Explore](https://azure.microsoft.com/en-us/products/storage/storage-explorer)
 
 # Installation
 1. Clone the repository:
@@ -139,12 +140,30 @@ See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.
    ![alt text](images/readme-tree.png)
 
 
+3. **Dynamic PDF creation**
+
+   Original request didn't return anything:
+
+   ![alt text](images/readme-rag-1.png)
+
+   Here I've input the markdown that was then converted to a PDF and uploaded:
+
+   ![alt text](images/readme-rag-2.png)
+
+   Here's the response after uploading the above markdown
+
+   ![alt text](images/readme-rag-3.png)
+
 # Deployment
 - Standard .NET deployment applies. For cloud or container deployment, ensure secrets are set via environment variables or a secure store.
 
 # Troubleshooting
 - **Untrusted certificate:** See the [troubleshooting guide](https://learn.microsoft.com/dotnet/aspire/troubleshooting/untrusted-localhost-certificate).
 - **Secrets not found:** Ensure you have set user secrets for each project as described above.
+- **Microsoft Azure Storage Explorer** Install to view Blobs and Queues:
+  ![alt text](images/readme-rag-4.png)
+- **MCP Explorer** Run to debug and testing the MCP Server:
+  ![alt text](images/readme-rag-5.png)
 
 # FAQ
 **Q: Can I use other AI providers?**
