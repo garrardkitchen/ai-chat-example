@@ -61,6 +61,19 @@ public class DataIngestor(
         logger.LogInformation("Ingestion is up-to-date");
     }
 
+    // public async Task IngestBlobAsync(AzureBlobPdfSource source, string blobName)
+    // {
+    //     logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
+    //     
+    //     var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
+    //     await vectorCollection.CreateCollectionIfNotExistsAsync();
+    //     
+    //     var newRecords = await source.ProcessBlobUrlAsync(embeddingGenerator, blobName);
+    //     await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
+    //     
+    //     logger.LogInformation("Blob ingestion complete for {blobUrl}", blobName);
+    // }
+    
     public async Task IngestBlobAsync(AzureBlobPdfSource source, string blobName)
     {
         logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
@@ -68,9 +81,37 @@ public class DataIngestor(
         var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
         await vectorCollection.CreateCollectionIfNotExistsAsync();
         
-        var newRecords = await source.ProcessBlobUrlAsync(embeddingGenerator, blobName);
-        await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
-        
+        var documentsForSource = ingestionCacheDb.Documents
+            .Where(d => d.SourceId == source.SourceId)
+            .Include(d => d.Records);
+
+        var modifiedDocs = await source.GetNewOrModifiedDocumentsAsync(documentsForSource);
+        foreach (var modifiedDoc in modifiedDocs)
+        {
+            logger.LogInformation("Processing {file}", modifiedDoc.Id);
+
+            if (modifiedDoc.Records.Count > 0)
+            {
+                await vectorCollection.DeleteBatchAsync(modifiedDoc.Records.Select(r => r.Id));
+            }
+
+            // var newRecords = await source.CreateRecordsForDocumentAsync(embeddingGenerator, modifiedDoc.Id);
+            // await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
+            
+            var newRecords = await source.ProcessBlobUrlAsync(embeddingGenerator, blobName);
+            await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
+
+            modifiedDoc.Records.Clear();
+            modifiedDoc.Records.AddRange(newRecords.Select(r => new IngestedRecord { Id = r.Key, DocumentId = modifiedDoc.Id }));
+
+            if (ingestionCacheDb.Entry(modifiedDoc).State == EntityState.Detached)
+            {
+                ingestionCacheDb.Documents.Add(modifiedDoc);
+            }
+        }
+
+        await ingestionCacheDb.SaveChangesAsync();
         logger.LogInformation("Blob ingestion complete for {blobUrl}", blobName);
+        logger.LogInformation("Ingestion is up-to-date");
     }
 }

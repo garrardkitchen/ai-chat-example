@@ -34,7 +34,7 @@
         Use the search tool to find relevant information. When you do this, end your
         reply with citations in the special XML format:
 
-        <citation filename='string' page_number='number'>exact quote here</citation>
+        <citation filename='string' page_number='number' source_type='string' source_container_name='string'>exact quote here</citation>
 
         Always include the citation in your response if there are results.
 
@@ -113,7 +113,7 @@
         await InvokeAsync(StateHasChanged);
         var results = await Search.SearchAsync(searchPhrase, filenameFilter, maxResults: 5);
         return results.Select(result =>
-            $"<result filename=\"{result.FileName}\" page_number=\"{result.PageNumber}\">{result.Text}</result>");
+            $"<result filename=\"{result.FileName}\" page_number=\"{result.PageNumber}\" source_type=\"{result.SourceType}\" source_container_name=\"{result.SourceContainerName}\">{result.Text}</result>");
     }
 
     public void Dispose()

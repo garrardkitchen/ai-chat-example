@@ -94,6 +94,8 @@ public class AzureBlobPdfSource : IIngestionSource
             PageNumber = pair.First.PageNumber,
             Text = pair.First.Text,
             Vector = pair.Second.Vector,
+            SourceType = "blob",
+            SourceContainerName = _containerName
         });
     }
 

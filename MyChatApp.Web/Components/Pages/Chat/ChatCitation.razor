@@ -18,6 +18,12 @@
 
     [Parameter]
     public int? PageNumber { get; set; }
+    
+    [Parameter]
+    public required string SourceType { get; set; }
+    
+    [Parameter]
+    public required string SourceContainerName { get; set; }
 
     [Parameter]
     public required string Quote { get; set; }
