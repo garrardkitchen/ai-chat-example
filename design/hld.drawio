@@ -8,13 +8,13 @@
                     <mxGeometry x="220" y="10" width="150" height="80" as="geometry"/>
                 </mxCell>
                 <mxCell id="47" value="MyMcpServerHttpApi" style="whiteSpace=wrap;html=1;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;labelBackgroundColor=none;labelBorderColor=none;textShadow=0;strokeColor=#6c8ebf;rounded=1;glass=0;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;" vertex="1" parent="1">
-                    <mxGeometry x="41" y="384" width="150" height="130" as="geometry"/>
+                    <mxGeometry x="41" y="410" width="150" height="130" as="geometry"/>
                 </mxCell>
                 <mxCell id="46" value="MyChatApp.Web" style="whiteSpace=wrap;html=1;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;labelBackgroundColor=none;labelBorderColor=none;textShadow=0;strokeColor=#82b366;rounded=1;glass=0;sketch=1;curveFitting=1;jiggle=2;fillColor=#d5e8d4;" vertex="1" parent="1">
                     <mxGeometry x="40" y="10" width="150" height="300" as="geometry"/>
                 </mxCell>
                 <mxCell id="45" value="MyAdminApp.Web" style="whiteSpace=wrap;html=1;verticalAlign=bottom;labelPosition=center;verticalLabelPosition=top;align=center;labelBackgroundColor=none;labelBorderColor=none;textShadow=0;strokeColor=#6c8ebf;rounded=1;glass=0;sketch=1;curveFitting=1;jiggle=2;fillColor=#dae8fc;" vertex="1" parent="1">
-                    <mxGeometry x="290" y="110" width="250" height="300" as="geometry"/>
+                    <mxGeometry x="270" y="160" width="250" height="250" as="geometry"/>
                 </mxCell>
                 <mxCell id="33" style="edgeStyle=none;html=1;endArrow=blockThin;endFill=1;strokeColor=#FF8000;strokeWidth=2;" edge="1" parent="1" source="32" target="5">
                     <mxGeometry relative="1" as="geometry"/>
@@ -30,8 +30,8 @@
                 <mxCell id="10" style="edgeStyle=none;html=1;entryX=0.516;entryY=0.986;entryDx=0;entryDy=0;entryPerimeter=0;endArrow=blockThin;endFill=1;strokeColor=#FF8000;strokeWidth=2;" edge="1" parent="1" source="5" target="8">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="25" value="Search Groups (GitLab)" style="edgeStyle=none;html=1;startArrow=block;startFill=1;endArrow=blockThin;endFill=1;strokeWidth=2;strokeColor=#336699;dashed=1;" edge="1" parent="1">
-                    <mxGeometry x="0.0476" y="50" relative="1" as="geometry">
+                <mxCell id="25" value="Search Groups (GitLab)" style="edgeStyle=none;html=1;startArrow=block;startFill=1;endArrow=blockThin;endFill=1;strokeWidth=2;strokeColor=#336699;dashed=1;entryX=0.867;entryY=0.034;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="22">
+                    <mxGeometry x="-0.0163" y="50" relative="1" as="geometry">
                         <mxPoint x="140" y="284" as="sourcePoint"/>
                         <mxPoint x="140" y="410" as="targetPoint"/>
                         <mxPoint as="offset"/>
@@ -40,8 +40,10 @@
                 <mxCell id="2" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/iot/Function_Apps.svg;" vertex="1" parent="1">
                     <mxGeometry x="260" y="26" width="68" height="60" as="geometry"/>
                 </mxCell>
-                <mxCell id="15" style="edgeStyle=none;html=1;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="3" target="2">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="15" style="edgeStyle=none;html=1;endArrow=blockThin;endFill=1;strokeWidth=2;strokeColor=#CC6600;" edge="1" parent="1" source="3" target="2">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="384.9999999999998" y="56" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="18" value="&amp;nbsp;new PDF&amp;nbsp;" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="15">
                     <mxGeometry x="-0.0332" y="-2" relative="1" as="geometry">
@@ -51,10 +53,11 @@
                 <mxCell id="3" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/storage/Storage_Accounts.svg;" vertex="1" parent="1">
                     <mxGeometry x="410" y="30" width="65" height="52" as="geometry"/>
                 </mxCell>
-                <mxCell id="23" value="Who Is" style="edgeStyle=none;html=1;startArrow=block;startFill=1;endArrow=blockThin;endFill=1;strokeWidth=2;strokeColor=#336699;dashed=1;" edge="1" parent="1">
-                    <mxGeometry relative="1" as="geometry">
+                <mxCell id="23" value="Who Is" style="edgeStyle=none;html=1;startArrow=block;startFill=1;endArrow=blockThin;endFill=1;strokeWidth=2;strokeColor=#336699;dashed=1;entryX=0.232;entryY=0.034;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="22">
+                    <mxGeometry x="-0.1429" y="-10" relative="1" as="geometry">
                         <mxPoint x="100" y="284" as="sourcePoint"/>
                         <mxPoint x="100" y="410.0000000000001" as="targetPoint"/>
+                        <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="4" value="Chat AI Web" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/App_Services.svg;" vertex="1" parent="1">
@@ -69,13 +72,13 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="5" value="Admin Web" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/App_Services.svg;" vertex="1" parent="1">
-                    <mxGeometry x="311" y="320" width="64" height="64" as="geometry"/>
+                    <mxGeometry x="291" y="320" width="64" height="64" as="geometry"/>
                 </mxCell>
                 <mxCell id="7" value="" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/ai_machine_learning/Azure_OpenAI.svg;" vertex="1" parent="1">
                     <mxGeometry x="80" y="30" width="68" height="68" as="geometry"/>
                 </mxCell>
                 <mxCell id="8" value="PDF" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/File.svg;" vertex="1" parent="1">
-                    <mxGeometry x="315" y="190" width="56.00000000000001" height="69" as="geometry"/>
+                    <mxGeometry x="295" y="190" width="56.00000000000001" height="69" as="geometry"/>
                 </mxCell>
                 <mxCell id="12" style="edgeStyle=none;html=1;strokeColor=#FF8000;strokeWidth=2;" edge="1" parent="1" source="9" target="8">
                     <mxGeometry relative="1" as="geometry"/>
@@ -86,7 +89,7 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="9" value="Markdown" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/general/File.svg;" vertex="1" parent="1">
-                    <mxGeometry x="470" y="190" width="56.00000000000001" height="69" as="geometry"/>
+                    <mxGeometry x="450" y="190" width="56.00000000000001" height="69" as="geometry"/>
                 </mxCell>
                 <mxCell id="11" value="&amp;nbsp;Upload&amp;nbsp;" style="edgeStyle=elbowEdgeStyle;html=1;entryX=0.52;entryY=1.001;entryDx=0;entryDy=0;entryPerimeter=0;elbow=vertical;endArrow=blockThin;endFill=1;strokeColor=#FF8000;strokeWidth=2;" edge="1" parent="1" source="8" target="3">
                     <mxGeometry relative="1" as="geometry"/>
@@ -111,13 +114,13 @@
                         <mxPoint x="90.75000000000003" y="220.00200000000015" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="21" value="response" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="20">
+                <mxCell id="21" value="Response" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="20">
                     <mxGeometry x="-0.172" y="1" relative="1" as="geometry">
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="22" value="MCP Server" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/App_Services.svg;" vertex="1" parent="1">
-                    <mxGeometry x="84" y="410" width="64" height="64" as="geometry"/>
+                    <mxGeometry x="84" y="436" width="64" height="64" as="geometry"/>
                 </mxCell>
                 <mxCell id="28" value="MCP Inspector" style="image;aspect=fixed;html=1;points=[];align=center;fontSize=12;image=img/lib/azure2/compute/App_Services.svg;" vertex="1" parent="1">
                     <mxGeometry x="82" y="600" width="64" height="64" as="geometry"/>
@@ -125,11 +128,11 @@
                 <mxCell id="30" value="&amp;nbsp;Debug/Test&amp;nbsp;" style="edgeStyle=none;html=1;endArrow=blockThin;endFill=1;" edge="1" parent="1" source="29" target="28">
                     <mxGeometry relative="1" as="geometry"/>
                 </mxCell>
-                <mxCell id="29" value="Engineer" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.user;" vertex="1" parent="1">
+                <mxCell id="29" value="Engineer" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#336699;shape=mxgraph.azure.user;" vertex="1" parent="1">
                     <mxGeometry x="-47" y="607" width="47.5" height="50" as="geometry"/>
                 </mxCell>
-                <mxCell id="32" value="Admin" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.user;" vertex="1" parent="1">
-                    <mxGeometry x="319.25" y="460" width="47.5" height="50" as="geometry"/>
+                <mxCell id="32" value="Admin" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#CC6600;shape=mxgraph.azure.user;" vertex="1" parent="1">
+                    <mxGeometry x="299.25" y="460" width="47.5" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="36" value="&amp;nbsp;Interact with AI Model&amp;nbsp;" style="edgeStyle=none;html=1;endArrow=blockThin;endFill=1;strokeColor=#66CC00;strokeWidth=2;" edge="1" parent="1">
                     <mxGeometry relative="1" as="geometry">
@@ -137,7 +140,7 @@
                         <mxPoint x="84.00000000000023" y="252.0000000000001" as="targetPoint"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="35" value="User" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#00BEF2;shape=mxgraph.azure.user;" vertex="1" parent="1">
+                <mxCell id="35" value="User" style="verticalLabelPosition=bottom;html=1;verticalAlign=top;align=center;strokeColor=none;fillColor=#66CC00;shape=mxgraph.azure.user;" vertex="1" parent="1">
                     <mxGeometry x="-120" y="227" width="47.5" height="50" as="geometry"/>
                 </mxCell>
                 <mxCell id="37" value="" style="edgeStyle=none;orthogonalLoop=1;jettySize=auto;html=1;strokeColor=#FF8000;strokeWidth=2;endArrow=blockThin;endFill=1;" edge="1" parent="1">
