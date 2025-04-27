@@ -45,41 +45,7 @@
 
             if (SourceType == "blob")
             {
-
-                var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__blobs");
-                var connectionStringParts = connectionString.Split(';');
-                string accountName = null;
-                string accountKey = null;
-                
-                foreach (var part in connectionStringParts)
-                {
-                    if (part.StartsWith("AccountName=", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        accountName = part.Replace("AccountName=", "", StringComparison.InvariantCultureIgnoreCase);
-                    }
-                    else if (part.StartsWith("AccountKey=", StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        accountKey = part.Replace("AccountKey=", "", StringComparison.InvariantCultureIgnoreCase);
-                    }
-                }
-                
-                var client = blobServiceClient.GetBlobContainerClient(SourceContainerName);
-                var blob = client.GetBlobClient(File);
-                BlobSasBuilder sasBuilder = new BlobSasBuilder
-                {
-                    BlobContainerName = SourceContainerName,
-                    BlobName = File,
-                    Resource = "b", // "b" for blob, "c" for container
-                    ExpiresOn = DateTimeOffset.UtcNow.AddHours(2) // Valid for 2 hour
-                };
-                
-                sasBuilder.SetPermissions(BlobSasPermissions.Read);
-                
-                string sasToken = sasBuilder.ToSasQueryParameters(new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey)).ToString();
-
-                // var url = blob.Uri.ToString();
-                
-                var sasUri = new Uri($"{blob.Uri}?{sasToken}").ToString();
+                var sasUri = GenerateSasUriForBlob();
                 // viewerUrl = $"lib/pdf_viewer/viewer.html?file={sasUri}#page={PageNumber}&search={HttpUtility.UrlEncode(search)}&phrase=true";
                 viewerUrl = sasUri;
             }
@@ -88,5 +54,42 @@
                 viewerUrl = $"lib/pdf_viewer/viewer.html?file=/Data/{HttpUtility.UrlEncode(File)}#page={PageNumber}&search={HttpUtility.UrlEncode(search)}&phrase=true";
             }
         }
+    }
+
+    private string GenerateSasUriForBlob()
+    {
+        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__blobs");
+        var connectionStringParts = connectionString.Split(';');
+        string accountName = null;
+        string accountKey = null;
+                
+        foreach (var part in connectionStringParts)
+        {
+            if (part.StartsWith("AccountName=", StringComparison.InvariantCultureIgnoreCase))
+            {
+                accountName = part.Replace("AccountName=", "", StringComparison.InvariantCultureIgnoreCase);
+            }
+            else if (part.StartsWith("AccountKey=", StringComparison.InvariantCultureIgnoreCase))
+            {
+                accountKey = part.Replace("AccountKey=", "", StringComparison.InvariantCultureIgnoreCase);
+            }
+        }
+                
+        var client = blobServiceClient.GetBlobContainerClient(SourceContainerName);
+        var blob = client.GetBlobClient(File);
+        BlobSasBuilder sasBuilder = new BlobSasBuilder
+        {
+            BlobContainerName = SourceContainerName,
+            BlobName = File,
+            Resource = "b", // "b" for blob, "c" for container
+            ExpiresOn = DateTimeOffset.UtcNow.AddHours(2) // Valid for 2 hour
+        };
+                
+        sasBuilder.SetPermissions(BlobSasPermissions.Read);
+                
+        string sasToken = sasBuilder.ToSasQueryParameters(new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey)).ToString();
+        var sasUri = new Uri($"{blob.Uri}?{sasToken}").ToString();
+        
+        return sasUri;
     }
 }
