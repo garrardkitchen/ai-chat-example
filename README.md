@@ -1,6 +1,6 @@
 # AI Chat Application with RAG and MCP Servers
 
-An .NET Aspire AI chat application that demonstrates how to chat with custom data (RAG - Event Driven) and context extensions (MCP Server) using an AI language model. 
+An .NET Aspire AI chat application that demonstrates how to chat with custom data (RAG - Event Driven) and context extensions (MCP Server) using an AI language model and Qdrant as the Vector Store.
 
 >[!NOTE]
 > This version does not deploy to Azure (yet). When this minor work is complete, the web applications (Chat and Admin), the MCP Server and the Functions App will all be Azure Container Apps. Functions Apps integration via .NET Aspire is still in `Preview` and the only deployment supported [currently] is to a ACA.
