@@ -10,7 +10,7 @@ public class SemanticSearch(
     public async Task<IReadOnlyList<SemanticSearchRecord>> SearchAsync(string text, string? filenameFilter, int maxResults)
     {
         var queryEmbedding = await embeddingGenerator.GenerateEmbeddingVectorAsync(text);
-        var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
+        var vectorCollection = vectorStore.GetCollection<Guid, SemanticSearchRecord>(Globals.VectorCollectionName);
 
         var nearest = await vectorCollection.VectorizedSearchAsync(queryEmbedding, new VectorSearchOptions<SemanticSearchRecord>
         {

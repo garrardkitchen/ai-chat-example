@@ -10,6 +10,8 @@ public class DataIngestor(
     IVectorStore vectorStore,
     IngestionCacheDbContext ingestionCacheDb)
 {
+    
+    
     public static async Task IngestDataAsync(IServiceProvider services, IIngestionSource source)
     {
         using var scope = services.CreateScope();
@@ -19,7 +21,7 @@ public class DataIngestor(
 
     public async Task IngestDataAsync(IIngestionSource source)
     {
-        var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
+        var vectorCollection = vectorStore.GetCollection<Guid, SemanticSearchRecord>(Globals.VectorCollectionName);
         await vectorCollection.CreateCollectionIfNotExistsAsync();
 
         var documentsForSource = ingestionCacheDb.Documents
@@ -49,7 +51,8 @@ public class DataIngestor(
             await foreach (var id in vectorCollection.UpsertBatchAsync(newRecords)) { }
 
             modifiedDoc.Records.Clear();
-            modifiedDoc.Records.AddRange(newRecords.Select(r => new IngestedRecord { Id = r.Key, DocumentId = modifiedDoc.Id }));
+            modifiedDoc.Records.AddRange(newRecords.Select(r => new IngestedRecord 
+                { Id = r.Key, DocumentId = modifiedDoc.Id }));
 
             if (ingestionCacheDb.Entry(modifiedDoc).State == EntityState.Detached)
             {
@@ -65,7 +68,7 @@ public class DataIngestor(
     // {
     //     logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
     //     
-    //     var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
+    //     var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>(Globals.VectorCollectionName);
     //     await vectorCollection.CreateCollectionIfNotExistsAsync();
     //     
     //     var newRecords = await source.ProcessBlobUrlAsync(embeddingGenerator, blobName);
@@ -78,7 +81,7 @@ public class DataIngestor(
     {
         logger.LogInformation("Processing blob URL: {blobUrl}", blobName);
         
-        var vectorCollection = vectorStore.GetCollection<string, SemanticSearchRecord>("data-mychatapp-ingested");
+        var vectorCollection = vectorStore.GetCollection<Guid, SemanticSearchRecord>(Globals.VectorCollectionName);
         await vectorCollection.CreateCollectionIfNotExistsAsync();
         
         var documentsForSource = ingestionCacheDb.Documents

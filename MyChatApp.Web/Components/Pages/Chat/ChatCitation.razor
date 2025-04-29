@@ -46,8 +46,8 @@
             if (SourceType == "blob")
             {
                 var sasUri = GenerateSasUriForBlob();
-                // viewerUrl = $"lib/pdf_viewer/viewer.html?file={sasUri}#page={PageNumber}&search={HttpUtility.UrlEncode(search)}&phrase=true";
-                viewerUrl = sasUri;
+                viewerUrl = $"lib/pdf_viewer/viewer.html?file={sasUri}#page={PageNumber}&search={HttpUtility.UrlEncode(search)}&phrase=true";
+                // viewerUrl = sasUri;
             }
             else
             {

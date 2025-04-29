@@ -5,7 +5,7 @@ namespace MyChatApp.Web.Services;
 public class SemanticSearchRecord
 {
     [VectorStoreRecordKey]
-    public required string Key { get; set; }
+    public required Guid Key { get; set; }
 
     [VectorStoreRecordData(IsFilterable = true)]
     public required string FileName { get; set; }

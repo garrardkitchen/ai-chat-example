@@ -9,6 +9,7 @@ using MyChatApp.Web.Services;
 using MyChatApp.Web.Services.Ingestion;
 using OpenAI;
 using System.ClientModel;
+using Microsoft.SemanticKernel.Connectors.Qdrant;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddServiceDefaults();
@@ -24,8 +25,10 @@ var ghModelsClient = new OpenAIClient(credential, openAIOptions);
 var chatClient = ghModelsClient.GetChatClient("gpt-4o-mini").AsIChatClient();
 var embeddingGenerator = ghModelsClient.GetEmbeddingClient("text-embedding-3-small").AsIEmbeddingGenerator();
 
-var vectorStore = new JsonVectorStore(Path.Combine(AppContext.BaseDirectory, "vector-store"));
-builder.Services.AddSingleton<IVectorStore>(vectorStore);
+// Commented out as now using Qdrant
+// var vectorStore = new JsonVectorStore(Path.Combine(AppContext.BaseDirectory, "vector-store"));
+// builder.Services.AddSingleton<IVectorStore>(vectorStore);
+
 builder.Services.AddScoped<DataIngestor>();
 builder.Services.AddSingleton<SemanticSearch>();
 builder.AddSqliteDbContext<IngestionCacheDbContext>("ingestionCache");
@@ -35,24 +38,10 @@ builder.Services.AddSingleton<McpService>();
 builder.AddAzureBlobClient("blobs");
 builder.AddAzureQueueClient("queues");
 builder.Services.AddHostedService<PdfQueueService>();
-//
-// // Register BlobContainerClient for the "blobs" container from Aspire
-// builder.Services.AddSingleton(sp =>
-// {
-//     var blobServiceClient = sp.GetRequiredService<BlobServiceClient>();
-//     var config = sp.GetRequiredService<IConfiguration>();
-//     var containerName = config["Azure:Storage:Blobs:ContainerName"] ?? "blobs";
-//     return blobServiceClient.GetBlobContainerClient(containerName);
-// });
 
-// Register AzureBlobPdfSource for DI
-// builder.Services.AddScoped<IIngestionSource, AzureBlobPdfSource>(sp =>
-// {
-//     var containerClient = sp.GetRequiredService<BlobContainerClient>();
-//     var config = sp.GetRequiredService<IConfiguration>();
-//     var containerName = config["Azure:Storage:Blobs:ContainerName"] ?? "blobs";
-//     return new AzureBlobPdfSource(containerClient, containerName);
-// });
+// Add Qdrant (have commented out above the JsonVectorStore)
+builder.AddQdrantClient("vectordb");
+builder.Services.AddSingleton<IVectorStore, QdrantVectorStore>();
 
 var app = builder.Build();
 IngestionCacheDbContext.Initialize(app.Services);

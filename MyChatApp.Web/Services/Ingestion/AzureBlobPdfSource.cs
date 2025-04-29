@@ -70,7 +70,7 @@ public class AzureBlobPdfSource : IIngestionSource
         var embeddings = await embeddingGenerator.GenerateAsync(paragraphs.Select(c => c.Text));
         return paragraphs.Zip(embeddings).Select((pair, index) => new SemanticSearchRecord
         {
-            Key = $"{Path.GetFileNameWithoutExtension(documentId)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
+            Key = Guid.CreateVersion7(), // $"{Path.GetFileNameWithoutExtension(documentId)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
             FileName = documentId,
             PageNumber = pair.First.PageNumber,
             Text = pair.First.Text,
@@ -89,7 +89,7 @@ public class AzureBlobPdfSource : IIngestionSource
         var embeddings = await embeddingGenerator.GenerateAsync(paragraphs.Select(c => c.Text));
         return paragraphs.Zip(embeddings).Select((pair, index) => new SemanticSearchRecord
         {
-            Key = $"{Path.GetFileNameWithoutExtension(blobName)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
+            Key = Guid.CreateVersion7(),// $"{Path.GetFileNameWithoutExtension(blobName)}_{pair.First.PageNumber}_{pair.First.IndexOnPage}",
             FileName = blobName,
             PageNumber = pair.First.PageNumber,
             Text = pair.First.Text,
