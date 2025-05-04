@@ -15,7 +15,7 @@ namespace MyFunctionApp
         public Function1(ILogger<Function1> logger, BlobServiceClient blobServiceClient)
         {
             _logger = logger;
-            _containerClient = blobServiceClient.GetBlobContainerClient("uploads");
+            // _containerClient = blobServiceClient.GetBlobContainerClient("uploads");
             _logger.LogInformation("Function 1 started");
         }
 

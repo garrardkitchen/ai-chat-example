@@ -1,3 +1,5 @@
+using System.Numerics;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
 // You will need to set the connection string to your own value
@@ -38,5 +40,9 @@ var functionApp = builder.AddAzureFunctionsProject<Projects.MyFunctionApp>("func
     .WithHostStorage(storage)
     .WaitFor(blobs).WithReference(blobs)
     .WaitFor(queues).WithReference(queues);
+
+functionApp.WithParentRelationship(adminWeb);
+mcpServer.WithParentRelationship(webApp);
+qdrant.WithParentRelationship(webApp);
 
 builder.Build().Run();

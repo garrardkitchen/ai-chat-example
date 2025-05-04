@@ -17,8 +17,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAdminApp.Web", "MyAdminAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFunctionApp", "MyFunctionApp\MyFunctionApp.csproj", "{77F56296-E420-4DFB-8423-131867F6F1DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyFunctionsApp", "MyFunctionsApp\MyFunctionsApp.csproj", "{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,18 +111,6 @@ Global
 		{77F56296-E420-4DFB-8423-131867F6F1DD}.Release|x64.Build.0 = Release|Any CPU
 		{77F56296-E420-4DFB-8423-131867F6F1DD}.Release|x86.ActiveCfg = Release|Any CPU
 		{77F56296-E420-4DFB-8423-131867F6F1DD}.Release|x86.Build.0 = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|x64.Build.0 = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Debug|x86.Build.0 = Debug|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|x64.ActiveCfg = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|x64.Build.0 = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|x86.ActiveCfg = Release|Any CPU
-		{DB90C6D7-BB01-4AE1-A850-F7A8FEC885AE}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
