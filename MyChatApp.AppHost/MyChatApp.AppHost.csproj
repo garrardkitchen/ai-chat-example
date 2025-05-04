@@ -22,7 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MyAdminApp.Web\MyAdminApp.Web.csproj" />
     <ProjectReference Include="..\MyChatApp.Web\MyChatApp.Web.csproj" />
-    <ProjectReference Include="..\MyMcpServerHttpApi\MyMcpServerHttpApi.csproj" />
+    <ProjectReference Include="..\MyMcpServerHttp\MyMcpServerHttp.csproj" />
     <ProjectReference Include="..\MyMcpServer\MyMcpServer.csproj" />
     <ProjectReference Include="..\MyFunctionApp\MyFunctionApp.csproj" />
   </ItemGroup>

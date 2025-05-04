@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyChatApp.Web", "MyChatApp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMcpServer", "MyMcpServer\MyMcpServer.csproj", "{0ED3E0E1-27F5-4B18-BE8C-CB69C6B0E27C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMcpServerHttpApi", "MyMcpServerHttpApi\MyMcpServerHttpApi.csproj", "{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyMcpServerHttp", "MyMcpServerHttp\MyMcpServerHttp.csproj", "{7BD726AB-5C6D-45CA-BA77-465DA881C2FE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAdminApp.Web", "MyAdminApp.Web\MyAdminApp.Web.csproj", "{8B029456-C718-4103-9B36-4E7D8076A49A}"
 EndProject

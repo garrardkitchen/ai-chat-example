@@ -13,7 +13,7 @@ var storage = builder.AddAzureStorage("blobStorage").RunAsEmulator();
 var blobs = storage.AddBlobs("blobs");
 var queues = storage.AddQueues("queues");
 
-var mcpServer = builder.AddProject<Projects.MyMcpServerHttpApi>("mcp-server").WithExternalHttpEndpoints();
+var mcpServer = builder.AddProject<Projects.MyMcpServerHttp>("mcp-server").WithExternalHttpEndpoints();
 
 // Not including WithDataVolume here as Blob Storage is using emulator do Blobs not persisted and therefore not exist in vector store
 var qdrant = builder.AddQdrant("vectordb");
