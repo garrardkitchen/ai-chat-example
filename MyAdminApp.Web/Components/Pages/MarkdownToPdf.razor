@@ -35,7 +35,7 @@
                 {
                     <div class="mb-3">
                         <label class="form-label">Preview:</label>
-                        <div class="border p-3 bg-light" style="min-height: 300px;">
+                        <div class="border p-3 bg-light" style="min-height: 300px; font-family: 'MesloLGS Nerd Font' ">
                             @((MarkupString)previewHtml)
                         </div>
                     </div>
@@ -63,6 +63,12 @@
     private bool isUploading = false;
     private string uploadResult = string.Empty;
     private bool uploadSuccess = false;
+    private MarkdownPipeline _pipeline;
+
+    protected override void OnInitialized()
+    {
+        _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().UseDiagrams().Build();
+    }
 
     private void SetTab()
     {
@@ -76,7 +82,7 @@
         }
         if (activeTab == "preview")
         {
-            previewHtml = Markdown.ToHtml(markdownText ?? "");
+            previewHtml = Markdown.ToHtml(markdownText ?? "", _pipeline);
         }
     }
 
