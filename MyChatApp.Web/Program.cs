@@ -9,6 +9,7 @@ using MyChatApp.Web.Services;
 using MyChatApp.Web.Services.Ingestion;
 using OpenAI;
 using System.ClientModel;
+using Azure.Storage.Blobs.Models;
 using Microsoft.SemanticKernel.Connectors.Qdrant;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -76,5 +77,19 @@ await DataIngestor.IngestDataAsync(
 var blobServiceClient = app.Services.GetRequiredService<BlobServiceClient>();
 var logger = app.Services.GetRequiredService<ILogger<AzureBlobPdfSource>>();
 await DataIngestor.IngestDataAsync(app.Services, new AzureBlobPdfSource(blobServiceClient, "pdf", logger) );
+
+var props  = await blobServiceClient.GetPropertiesAsync();
+
+// add your CORS rule
+props.Value.Cors.Add(new BlobCorsRule
+{
+    AllowedOrigins    = "*",
+    AllowedMethods    = "GET,OPTIONS",
+    AllowedHeaders    = "*",
+    ExposedHeaders    = "*",
+    MaxAgeInSeconds   = 3600
+});
+
+await blobServiceClient.SetPropertiesAsync(props.Value);
 
 app.Run();

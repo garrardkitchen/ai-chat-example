@@ -5,7 +5,20 @@ GlobalWorkerOptions.workerSrc = '../pdfjs-dist/dist/build/pdf.worker.min.mjs';
 
 // Extract the file path from the URL query string.
 const url = new URL(window.location);
-const fileUrl = url.searchParams.get('file');
+// alert(url);
+var fileUrl = url.searchParams.get('file');
+
+// const sv = url.searchParams.get('sv');
+const se = url.searchParams.get('se');
+const sr = url.searchParams.get('sr');
+const sp = url.searchParams.get('sp');
+const sig = url.searchParams.get('sig');
+
+fileUrl = fileUrl + "&se=" + se + "&sr=" + sr + "&sp=" + sp +"&sig=" + sig;
+// alert(fileUrl);
+// alert(sp);
+
+// fileUrl = fileUrl + "?sv=" + sv + "&se=" + se + "&sr=" + sr + "&sig=" + sig;
 if (!fileUrl) {
   throw new Error('File not specified in the URL query string');
 }

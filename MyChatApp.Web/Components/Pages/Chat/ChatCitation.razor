@@ -1,8 +1,10 @@
+@using System.Text
 @using System.Web
 @using Azure.Storage
 @using Azure.Storage.Blobs
 @using Azure.Storage.Sas
 @inject BlobServiceClient blobServiceClient
+@inject ILogger<ChatCitation> Logger
 @if (!string.IsNullOrWhiteSpace(viewerUrl))
 {
     <a href="@viewerUrl" target="_blank" class="citation">
@@ -46,6 +48,7 @@
             if (SourceType == "blob")
             {
                 var sasUri = GenerateSasUriForBlob();
+                Logger.LogInformation("sasUri: {uri}", sasUri);
                 viewerUrl = $"lib/pdf_viewer/viewer.html?file={sasUri}#page={PageNumber}&search={HttpUtility.UrlEncode(search)}&phrase=true";
                 // viewerUrl = sasUri;
             }
@@ -88,6 +91,10 @@
         sasBuilder.SetPermissions(BlobSasPermissions.Read);
                 
         string sasToken = sasBuilder.ToSasQueryParameters(new Azure.Storage.StorageSharedKeyCredential(accountName, accountKey)).ToString();
+
+        var sigParam = sasToken.Split('=').Last();
+        sasToken = sasToken.Replace(sigParam,HttpUtility.UrlEncode(sigParam));
+                
         var sasUri = new Uri($"{blob.Uri}?{sasToken}").ToString();
         
         return sasUri;
