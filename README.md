@@ -5,9 +5,6 @@ An .NET Aspire AI chat application that demonstrates how to chat with custom dat
 >[!NOTE]
 > This version does not deploy to Azure (yet). When this minor work is complete, the web applications (Chat and Admin), the MCP Server and the Functions App will all be Azure Container Apps. Functions Apps integration via .NET Aspire is still in `Preview` and the only deployment supported [currently] is to a ACA.
 
->[!WARNING]
-> PDFs that you upload, albeit shown as a citation, they cannot be opened (yet) - **`in-progress`**
-
 ---
 
 # Table of Contents
