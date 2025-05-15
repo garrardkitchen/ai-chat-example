@@ -157,6 +157,25 @@ See [Troubleshoot untrusted localhost certificate in .NET Aspire](https://learn.
 
    ![alt text](images/readme-rag-3.png)
 
+
+4. **PDF Upload**
+
+    > # Druperts
+    > 
+    > _Here are some facts about Druperts. There maybe some non-Drupert facts in this list too:_
+    > 
+    > - A Drupert is a fictional creature
+    > - A Sleepert is meant to make you fall asleep during school time
+    > - Chicken Jockie!
+    > - A Drupert is meant to distract
+    > - A Drupert sole purpose is to make you laugh
+    > - If someone draws a Drupert during class time and you laugh, you'll likely be told off my your teacher
+
+5. **Funny Story prompt**
+
+    > Create me a funny story about a Drupert. No longer than 5 sentences.  It must end with a hugging face emoji on a new line. Please include citations
+
+
 # Deployment
 - Standard .NET deployment applies. For cloud or container deployment, ensure secrets are set via environment variables or a secure store.
 
