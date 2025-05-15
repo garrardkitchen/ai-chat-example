@@ -210,4 +210,4 @@ For support or inquiries, please open an issue or contact the maintainer via Git
 
 # References
 - [Announcing .NET AI Template Preview 1](https://devblogs.microsoft.com/dotnet/announcing-dotnet-ai-template-preview1/)
-
+- [Announcing .NET AI Template Preview 2](https://devblogs.microsoft.com/dotnet/announcing-dotnet-ai-template-preview2/)
