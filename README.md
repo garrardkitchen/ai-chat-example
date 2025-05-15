@@ -106,7 +106,7 @@ Before running, configure API keys and endpoints for your chosen providers.
   ```
 - Set the GitLab domain:
   ```bash
-  dotnet user-secrets set "GitLab:domain" "<your-domain-value>"
+  dotnet user-secrets set "GitLab:Domain" "<your-domain-value>"
   ```
 
 > **Note:** User secrets are stored outside source control. In Visual Studio, right-click the project and select "Manage User Secrets" to edit them directly.
